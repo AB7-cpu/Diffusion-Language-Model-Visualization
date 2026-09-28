@@ -104,42 +104,7 @@ This single structural change — `return` to `yield` — is what makes the enti
 
 ### System architecture
 
-```
-┌─────────────────────────────────────────────────────────┐
-│  Browser  (React + TypeScript + Vite)                    │
-│                                                          │
-│  ┌──────────────────────────────┐                        │
-│  │ Prompt input + params        │  WebSocket              │
-│  │ useDiffusionStream (hook)    │ ◄──────────────────────►│
-│  │ TokenSequence (renderer)     │  JSON step events       │
-│  └──────────────────────────────┘                        │
-└─────────────────────────────────────────────────────────┘
-                          │ ws://localhost:8000/ws/generate
-                          ▼
-┌─────────────────────────────────────────────────────────┐
-│  FastAPI WebSocket server  (backend/server.py)           │
-│                                                          │
-│  • Receives prompt + params over WebSocket               │
-│  • Runs generate_stream() on a background thread         │
-│    (blocking CUDA work must not run on the asyncio loop) │
-│  • Forwards DiffusionState events to the client as JSON  │
-└───────────────────────┬─────────────────────────────────┘
-                        │
-┌───────────────────────▼─────────────────────────────────┐
-│  DiffusionEngine  (backend/engine.py)                    │
-│                                                          │
-│  • Wraps LLaDA's sampling loop as a Python generator     │
-│  • Yields DiffusionState after every refinement step     │
-│  • Supports low_confidence and random remasking          │
-└───────────────────────┬─────────────────────────────────┘
-                        │
-┌───────────────────────▼─────────────────────────────────┐
-│  Model loader  (backend/model_loader.py)                 │
-│                                                          │
-│  • LLaDA-8B-Instruct in 4-bit (bitsandbytes NF4)        │
-│  • ~5.5 GB VRAM footprint on an 8 GB GPU                │
-└─────────────────────────────────────────────────────────┘
-```
+![System architecture diagram](architecture_diagram.png)
 
 ### WebSocket event protocol
 
@@ -179,7 +144,7 @@ Diffusion_Language_Model/
 ├── backend/
 │   ├── engine.py            # DiffusionEngine — streaming generator wrapper
 │   ├── model_loader.py      # 4-bit quantised model loading
-│   ├── server.py            # FastAPI WebSocket server
+│   └── server.py            # FastAPI WebSocket server
 │
 ├── frontend/
 │   └── src/
