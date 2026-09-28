@@ -30,6 +30,12 @@ STEP 16:  The transformer is a neural network that uses attention mechanisms
 
 Every intermediate state is real model output — not a simulation or a post-hoc animation constructed from the final answer.
 
+### Demo
+
+<video src="Demo/Diffusion%20LM%20Visualization.mp4" controls width="100%">
+  <a href="Demo/Diffusion%20LM%20Visualization.mp4">Watch the demo video</a>
+</video>
+
 ---
 
 ## The model: LLaDA-8B-Instruct
