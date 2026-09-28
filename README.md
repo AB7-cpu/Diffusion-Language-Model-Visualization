@@ -32,9 +32,12 @@ Every intermediate state is real model output — not a simulation or a post-hoc
 
 ### Demo
 
-<video src="Demo/Diffusion%20LM%20Visualization.mp4" controls width="100%">
-  <a href="Demo/Diffusion%20LM%20Visualization.mp4">Watch the demo video</a>
-</video>
+
+https://github.com/user-attachments/assets/f0f5c4b9-8c22-433b-b8c0-21fdad1302d8
+
+
+
+
 
 ---
 
